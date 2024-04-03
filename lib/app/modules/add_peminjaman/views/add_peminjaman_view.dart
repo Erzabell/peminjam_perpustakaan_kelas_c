@@ -12,12 +12,26 @@ class AddPeminjamanView extends GetView<AddPeminjamanController> {
       appBar: AppBar(
         title:  Text('${Get.parameters['judul'].toString()}'),
         centerTitle: true,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: <Color>[Colors.purple,Colors.blue])
+          ),
+        ),
       ),
+      backgroundColor: Color.fromRGBO(134, 168, 204, 0.4),
       body: Center(
           child: Form(
               key: controller.formkey,
               child: Column(
                 children: [
+                  Container(
+                    width: 350,
+                    height: 350,
+                    child: Image.asset('assets/logo.png'),
+                  ),
                   DateTimePicker(
                     controller: controller.tanggal_pinjamController,
                     firstDate: DateTime(2000),
@@ -46,13 +60,32 @@ class AddPeminjamanView extends GetView<AddPeminjamanController> {
                     onSaved: (val) => print(val),
                     icon: Icon(Icons.calendar_today),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Obx(() => controller.loading.value
                       ? CircularProgressIndicator()
-                      : ElevatedButton(
+                      :Container(
+                    width: 200,
+                    height: 45,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                       onPressed: () {
                         controller.post();
                       },
-                      child: Text("Pinjam")))
+                      child: Text(
+                        "Pinjam",
+                        style: TextStyle(
+                          color: Color(0xffffffff),
+                        ),
+                      ),
+                    ),
+                  ))
 
                 ],
               ))
