@@ -24,7 +24,7 @@ class RegisterView extends GetView<RegisterController> {
       backgroundColor: Color.fromRGBO(134, 168, 204, 0.4),
       body: Center(
           child: Form(
-              key: controller.formkey,
+              key: controller.formKey,
               child: Column(
                 children: [
                   Container(
@@ -171,7 +171,7 @@ class RegisterView extends GetView<RegisterController> {
                         ),
                       ),
                       onPressed: () {
-                        controller.register();
+                        controller.add();
                       },
                       child: Text(
                         "Tambah",

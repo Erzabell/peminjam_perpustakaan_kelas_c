@@ -30,20 +30,18 @@ class HomeView extends GetView<HomeController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 200,
-                height: 200,
+                width: 400,
+                height: 400,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  image: DecorationImage(image: NetworkImage('assets/akudan.png'),
+                  image: DecorationImage(image: NetworkImage('assets/logo.png'),
                       fit: BoxFit.fill
                   ),
                 ),
               ),
               SizedBox(height: 10),
               Text(
-                "Perpustakaan adalah sarana untuk mengumpulkan, menjelajahi, menambang sebuah ilmu pengetahuan melalui berbagai macam jenis buku yang bertujuan untuk menambah wawasan dan pengetahuan manusia."
-                    "Tapi sebuah perpustakaan tidak hanya berwujud sebuah tempat yang hanya dapat dikunjungi pada waktu tertentu saja, namun pada zaman sekarang suatu perpustakaan dapat diakses dimanapun dan kapanpun,"
-                    "melalui ponsel ,maupun perangkat digital lainya, dengan menggunakan sebuah aplikasi perpustakaan yang sudah diprogram dan bisa dijalankan oleh semua pengguna internet. dan itulah tujuan saya membuat aplikasi perpustakaan.",
+                "Perpustakaan adalah surga bagi pembaca yang haus akan petualangan.",
                 style: TextStyle(
                   fontSize: 24,
                   fontStyle: FontStyle.normal
