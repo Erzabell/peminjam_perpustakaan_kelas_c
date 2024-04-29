@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import '../../../routes/app_pages.dart';
@@ -16,10 +15,12 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: <Color>[Colors.purple, Colors.blue])),
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: <Color>[Colors.purple, Colors.blue]
+            ),
+          ),
         ),
       ),
       backgroundColor: Color.fromRGBO(134, 168, 204, 0.4),
@@ -34,8 +35,9 @@ class HomeView extends GetView<HomeController> {
                 height: 400,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  image: DecorationImage(image: NetworkImage('assets/logo.png'),
-                      fit: BoxFit.fill
+                  image: DecorationImage(
+                    image: NetworkImage('assets/logo.png'),
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),
@@ -44,15 +46,15 @@ class HomeView extends GetView<HomeController> {
                 "Perpustakaan adalah surga bagi pembaca yang haus akan petualangan.",
                 style: TextStyle(
                   fontSize: 24,
-                  fontStyle: FontStyle.normal
+                  fontStyle: FontStyle.normal,
                 ),
               ),
               SizedBox(height: 20),
               Text(
                 'Silakan pilih salah satu menu di bawah ini:',
                 style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -88,6 +90,20 @@ class HomeView extends GetView<HomeController> {
               break; // Tambahkan break untuk menghentikan switch statement
           }
         },
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text("rio"),
+              accountEmail: Text("rio22@gmail.com"),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage('assets/akudan.png'),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

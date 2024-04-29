@@ -14,6 +14,9 @@ class AddPeminjamanController extends GetxController {
   final loading = false.obs;
   final count = 0.obs;
 
+  // Maximum duration for book return (in days)
+  final int maxReturnDuration = 14;
+
   @override
   void onInit() {
     super.onInit();
@@ -29,36 +32,78 @@ class AddPeminjamanController extends GetxController {
   void onClose() {
     super.onClose();
   }
+
   post() async {
     loading(true);
     try {
-      FocusScope.of(Get.context!).unfocus(); // nge close keyboard
+      FocusScope.of(Get.context!).unfocus(); // Close keyboard
       formkey.currentState?.save();
       if (formkey.currentState!.validate()) {
-        final response = await ApiProvider.instance().post(Endpoint.pinjam,
-            data: {"user_id": int.parse(StorageProvider.read(StorageKey.idUser)),
-              "book_id": int.parse(Get.parameters['id'].toString()),
-              "tanggal_pinjam" : tanggal_pinjamController.text.toString(),
-              "tanggal_kembali": tanggal_kembaliController.text.toString(),
-
+        // Validate return date
+        DateTime? returnDate = DateTime.tryParse(tanggal_kembaliController.text);
+        if (returnDate != null) {
+          DateTime currentDate = DateTime.now();
+          Duration difference = returnDate.difference(currentDate);
+          int daysDifference = difference.inDays;
+          if (daysDifference <= maxReturnDuration) {
+            final response = await ApiProvider.instance().post(
+              Endpoint.pinjam,
+              data: {
+                "user_id": int.parse(StorageProvider.read(StorageKey.idUser)),
+                "book_id": int.parse(Get.parameters['id'].toString()),
+                "tanggal_pinjam": tanggal_pinjamController.text.toString(),
+                "tanggal_kembali": tanggal_kembaliController.text.toString(),
+              },
+            );
+            if (response.statusCode == 201) {
+              Get.back();
+            } else {
+              Get.snackbar(
+                "Sorry",
+                "Register Gagal",
+                backgroundColor: Colors.orange,
+              );
             }
-        );
-        if( response.statusCode == 201) {
-          Get.back();
+          } else {
+            Get.snackbar(
+              "Error",
+              "Peminjaman hanya (2 minggu)",
+              backgroundColor: Colors.red,
+            );
+          }
         } else {
-          Get.snackbar("sorry", "Register Gagal", backgroundColor: Colors.orange);
+          Get.snackbar(
+            "Error",
+            "Format tanggal pengembalian tidak valid",
+            backgroundColor: Colors.red,
+          );
         }
-      }loading(false);
-    } on dio.DioException catch (e) {loading(false);
-    if (e.response != null){
-      if (e.response?.data != null){
-        Get.snackbar("Sorry", "${e.response?.data['message']}", backgroundColor: Colors.orange);
       }
-    } else {
-      Get.snackbar("sorry", e.message ?? "", backgroundColor: Colors.red);
-    }
-    }catch (e) {loading(false);
-    Get.snackbar("Error", e.toString(), backgroundColor: Colors.red);
+      loading(false);
+    } on dio.DioException catch (e) {
+      loading(false);
+      if (e.response != null) {
+        if (e.response?.data != null) {
+          Get.snackbar(
+            "Sorry",
+            "${e.response?.data['message']}",
+            backgroundColor: Colors.orange,
+          );
+        }
+      } else {
+        Get.snackbar(
+          "Sorry",
+          e.message ?? "",
+          backgroundColor: Colors.red,
+        );
+      }
+    } catch (e) {
+      loading(false);
+      Get.snackbar(
+        "Error",
+        e.toString(),
+        backgroundColor: Colors.red,
+      );
     }
   }
 
